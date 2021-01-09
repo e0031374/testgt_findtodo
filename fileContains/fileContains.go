@@ -2,8 +2,8 @@ package fileContains
 
 import (
 	"fmt"
-	"os"
 	"io"
+	"os"
 	"path/filepath"
 
 	"findTodo/readerTest"
@@ -11,9 +11,10 @@ import (
 
 func fileContainsString(path string, target string) (bool, error) {
 	f, err := os.Open(path)
-	if err != nil { return false, fmt.Errorf("Error opening file %v ::", err) }
+	if err != nil {
+		return false, fmt.Errorf("Error opening file %v ::", err)
+	}
 	defer f.Close()
-
 
 	stringTest := readerTest.NewStringTest(target)
 	out := stringTest.Test(f)
@@ -45,7 +46,7 @@ func NewFileContainsWalkFunction(w io.Writer, target string) func(path string) e
 }
 
 func Driver(path string, target string) (bool, error) {
-	err := filepath.Walk(path, func(path string, info os.FileInfo, err error ) error {
+	err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return fmt.Errorf("Encountered error while accessing path: %v ::", err)
 		}

@@ -1,26 +1,26 @@
 package fileContains
 
 import (
-	"testing"
-	"strings"
-	"io/ioutil"
-	"path/filepath"
-	"os"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
 )
 
 type TestFile struct {
 	contents string
-	ans bool
+	ans      bool
 }
 
 func prepareTmpDir(tests []TestFile) (string, []string, error) {
-	tmpDir, err := ioutil.TempDir("","")
+	tmpDir, err := ioutil.TempDir("", "")
 	if err != nil {
 		return tmpDir, nil, fmt.Errorf("Unable to create test dir%v", err)
 	}
 
-	filenames  := make([]string, len(tests))
+	filenames := make([]string, len(tests))
 
 	for i, tt := range tests {
 		filename := "/test" + fmt.Sprint(i) + ".in"
@@ -45,11 +45,11 @@ func prepareTmpDir(tests []TestFile) (string, []string, error) {
 func TestNewStringTest(t *testing.T) {
 
 	tests := []TestFile{
-		{ `"TODO"`, true },
-		{ `//"TODO"`, true  },
-		{ `package main func main { "TODO" }`, true },
-		{ `TODO`, false },
-		{ `type Reader interface `, false },
+		{`"TODO"`, true},
+		{`//"TODO"`, true},
+		{`package main func main { "TODO" }`, true},
+		{`TODO`, false},
+		{`type Reader interface `, false},
 	}
 	target := `"TODO"`
 
@@ -70,17 +70,16 @@ func TestNewStringTest(t *testing.T) {
 			filename = filename + "\n"
 			writtenPath := sb.String()
 			if tests[i].ans {
-			    	if writtenPath != filename {
+				if writtenPath != filename {
 					t.Fatalf("tests[%d] - failed match.\nactualPath=%v,\nwrittenPath=%v,",
-                        	    	i, filename, writtenPath)
+						i, filename, writtenPath)
 				}
 			} else {
-			    	if writtenPath != "" {
+				if writtenPath != "" {
 					t.Fatalf("tests[%d] - failed match.\nactualPath=%v,\nwrittenPath=%v,",
-                        	    	i, "[NIL]", writtenPath)
+						i, "[NIL]", writtenPath)
 				}
 			}
 		}
 	}
 }
-

@@ -1,20 +1,20 @@
 package readerTest
 
 import (
-	"io"
 	"bufio"
+	"io"
 	"strings"
 )
 
 // log use of bufio.NewScanner to read from file
-// log this bit about using bufio.ScanWords 
+// log this bit about using bufio.ScanWords
 // https://medium.com/golangspec/in-depth-introduction-to-bufio-scanner-in-golang-55483bb689b4
 
 // default will test against empty string
 
 type ReaderTest struct {
 	defaultVal bool
-	testFn func(string)bool
+	testFn     func(string) bool
 }
 
 func (st ReaderTest) Test(r io.Reader) bool {
@@ -38,6 +38,6 @@ func hasSubstringTestFn(substr string) func(string) bool {
 func NewStringTest(substr string) ReaderTest {
 	return ReaderTest{
 		defaultVal: false,
-		testFn: hasSubstringTestFn(substr),
+		testFn:     hasSubstringTestFn(substr),
 	}
 }

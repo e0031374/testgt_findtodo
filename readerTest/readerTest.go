@@ -1,7 +1,6 @@
 package readerTest
 
 import (
-	"fmt"
 	"io"
 	"bufio"
 	"strings"
@@ -23,7 +22,6 @@ func (st ReaderTest) Test(r io.Reader) bool {
 	sc.Split(bufio.ScanWords)
 	for sc.Scan() {
 		input := sc.Text()
-		fmt.Println(input)
 		if st.testFn(input) {
 			return st.testFn(input)
 		}

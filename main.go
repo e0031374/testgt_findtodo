@@ -4,24 +4,33 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"findTodo/fileContains"
+	"findTodo/readerTest"
 )
 
 func main() {
 	pathFlag := flag.String("p", ".", "path root to begin checking files for string")
 	stringFlag := flag.String("s", `"TODO"`, "target string to check files for")
-	exactFlag := flag.Bool("e", true, "should program search for exact match (true) or substring (false)")
+	exactFlag := flag.Bool("e", false, "should program search for exact match (true) or substring (false)")
 
 	flag.Parse()
-	//ok, err := fileContains.Driver("a.in", "todo")
 	fmt.Println(*exactFlag)
 
-	ok, err := fileContains.Driver(*pathFlag, *stringFlag)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error in Driver %v\n", err)
-		os.Exit(1)
+	var rt readerTest.ReaderTest
+	if *exactFlag {
+		rt = readerTest.ExactStringTest(*stringFlag)
+	} else {
+		rt = readerTest.HasSubstringTest(*stringFlag)
 	}
-	fmt.Println(ok)
+
+	wf := fileContains.NewFileTestWalkFunction(os.Stdout, *stringFlag, rt)
+        err := filepath.Walk(*pathFlag, wf)
+        if err != nil {
+		fmt.Fprintf(os.Stderr, "Error in running filepath.Walk %v\n", err)
+		os.Exit(1)
+        }
+
 
 }

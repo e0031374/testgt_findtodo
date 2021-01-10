@@ -63,7 +63,7 @@ func TestNewStringTest(t *testing.T) {
 
 	//stubTrueFn := func(_ string) bool { return true }
 	//stubRT := readerTest.ReaderTest{ true, stubTrueFn }
-	rt := readerTest.NewStringTest(`"TODO"`)	// use stub instead?
+	rt := readerTest.HasSubstringTest(`"TODO"`)	// use stub instead?
 
 	for i, filename := range filenames {
 		sb := new(strings.Builder)  // only the ptr implements io.Writer

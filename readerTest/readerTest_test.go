@@ -21,7 +21,7 @@ func TestHasSubstringTestFn(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		todoTest := hasSubstringTestFn(`"TODO"`)
+		todoTest := HasSubstringTest(`"TODO"`).TestFn
 		testResult := todoTest(tt.input)
 		if testResult != tt.expect {
 			t.Fatalf("tests[%d] - failed match. input=%v expected=%v, got=%v",

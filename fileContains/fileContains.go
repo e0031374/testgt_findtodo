@@ -39,7 +39,7 @@ func NewFileTestWalkFunction(w io.Writer, target string, rt readerTest.ReaderTes
 }
 
 func Driver(path string, target string) (bool, error) {
-	wf := NewFileTestWalkFunction(os.Stdout, target, readerTest.NewStringTest(target))
+	wf := NewFileTestWalkFunction(os.Stdout, target, readerTest.HasSubstringTest(target))
 	err := filepath.Walk(path, wf)
 	if err != nil {
 		return false, err

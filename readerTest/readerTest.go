@@ -29,15 +29,22 @@ func (st ReaderTest) Test(r io.Reader) bool {
 	return st.DefaultVal
 }
 
-func hasSubstringTestFn(substr string) func(string) bool {
-	return func(input string) bool {
+func HasSubstringTest(substr string) ReaderTest {
+	testFn := func(input string) bool {
 		return strings.Contains(input, substr)
+	}
+	return ReaderTest{
+		DefaultVal: false,
+		TestFn:     testFn,
 	}
 }
 
-func NewStringTest(substr string) ReaderTest {
+func ExactStringTest(substr string) ReaderTest {
+	testFn := func(input string) bool {
+		return input == substr
+	}
 	return ReaderTest{
 		DefaultVal: false,
-		TestFn:     hasSubstringTestFn(substr),
+		TestFn:     testFn,
 	}
 }

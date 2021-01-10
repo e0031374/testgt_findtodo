@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"findTodo/readerTest"
 )
 
 type TestFile struct {
@@ -59,11 +61,13 @@ func TestNewStringTest(t *testing.T) {
 		t.Fatalf("setup file dir error")
 	}
 
+	//stubTrueFn := func(_ string) bool { return true }
+	//stubRT := readerTest.ReaderTest{ true, stubTrueFn }
+	rt := readerTest.NewStringTest(`"TODO"`)	// use stub instead?
+
 	for i, filename := range filenames {
-		sb := new(strings.Builder)
-		// https://stackoverflow.com/questions/13765797/the-best-way-to-get-a-string-from-a-writer
-		// note need pointer for io.Writer, since it is the pointer of strings.Builder that implement the methods
-		err := NewFileContainsWalkFunction(sb, target)(filename)
+		sb := new(strings.Builder)  // only the ptr implements io.Writer
+		err := NewFileTestWalkFunction(sb, target, rt)(filename, nil, nil)
 		if err != nil {
 			t.Fatalf("tests[%d] - error testing file: %v ::\n", i, err)
 		} else {

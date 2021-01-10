@@ -42,7 +42,7 @@ func TestReaderTestTestMethod(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		stubReaderTest := ReaderTest{defaultVal: true, testFn: trueStubTest}
+		stubReaderTest := ReaderTest{DefaultVal: true, TestFn: trueStubTest}
 		expected := true
 		ttReader := strings.NewReader(tt)
 
@@ -57,7 +57,7 @@ func TestReaderTestTestMethod(t *testing.T) {
 		return false
 	}
 	for i, tt := range tests {
-		stubReaderTest := ReaderTest{defaultVal: false, testFn: falseStubTest}
+		stubReaderTest := ReaderTest{DefaultVal: false, TestFn: falseStubTest}
 		expected := false
 		ttReader := strings.NewReader(tt)
 

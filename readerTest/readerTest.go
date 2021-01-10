@@ -13,8 +13,8 @@ import (
 // default will test against empty string
 
 type ReaderTest struct {
-	defaultVal bool
-	testFn     func(string) bool
+	DefaultVal bool
+	TestFn     func(string) bool
 }
 
 func (st ReaderTest) Test(r io.Reader) bool {
@@ -22,11 +22,11 @@ func (st ReaderTest) Test(r io.Reader) bool {
 	sc.Split(bufio.ScanWords)
 	for sc.Scan() {
 		input := sc.Text()
-		if st.testFn(input) {
-			return st.testFn(input)
+		if st.TestFn(input) {
+			return st.TestFn(input)
 		}
 	}
-	return st.defaultVal
+	return st.DefaultVal
 }
 
 func hasSubstringTestFn(substr string) func(string) bool {
@@ -37,7 +37,7 @@ func hasSubstringTestFn(substr string) func(string) bool {
 
 func NewStringTest(substr string) ReaderTest {
 	return ReaderTest{
-		defaultVal: false,
-		testFn:     hasSubstringTestFn(substr),
+		DefaultVal: false,
+		TestFn:     hasSubstringTestFn(substr),
 	}
 }

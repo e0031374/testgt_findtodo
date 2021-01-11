@@ -15,6 +15,8 @@
 ## Operation
 1. print all files from root directory with default settings
     + `$ go run main.go`
+1. print all files from specified root directory
+    + `$ go run main.go [path/to/dir]`
 
 ## Flag: match type `-e`
 1. Exact match 
@@ -32,6 +34,10 @@
     + the following are comparable
         + `$ go run main.go`
         + `$ go run main.go -p="."`
+1. Path specified in CLI arguments take precedence over this flag
+    + following command will search in `./test2` instead of `./test`
+    + `$ go run main.go ./test2 -p="./test"`
+
 
 ## Flag: help `-h`
 1. Check usage of tool

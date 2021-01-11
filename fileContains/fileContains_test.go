@@ -16,6 +16,7 @@ type TestFile struct {
 	ans      bool
 }
 
+// sets up temporary test directory, needs to be manually cleaned up in caller
 func prepareTmpDir(tests []TestFile) (string, []string, error) {
 	tmpDir, err := ioutil.TempDir("", "")
 	if err != nil {
@@ -44,7 +45,8 @@ func prepareTmpDir(tests []TestFile) (string, []string, error) {
 	return tmpDir, filenames, nil
 }
 
-func TestNewStringTest(t *testing.T) {
+// tests for the walk function returned by NewFileTestWalkFunction
+func TestNewFileTestWalkFunction(t *testing.T) {
 
 	tests := []TestFile{
 		{`"TODO"`, true},
@@ -63,7 +65,7 @@ func TestNewStringTest(t *testing.T) {
 
 	//stubTrueFn := func(_ string) bool { return true }
 	//stubRT := readerTest.ReaderTest{ true, stubTrueFn }
-	rt := readerTest.HasSubstringTest(`"TODO"`)	// use stub instead?
+	rt := readerTest.HasSubstringTest(`"TODO"`)
 
 	for i, filename := range filenames {
 		sb := new(strings.Builder)  // only the ptr implements io.Writer

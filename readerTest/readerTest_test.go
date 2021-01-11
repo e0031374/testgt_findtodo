@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+// tests for the ReaderTest.TestFn in the ReaderTest struct returned by HasSubstringTest
 func TestHasSubstringTestFn(t *testing.T) {
 	tests := []struct {
 		input  string
@@ -30,6 +31,32 @@ func TestHasSubstringTestFn(t *testing.T) {
 	}
 }
 
+func TestExactStringTestFn(t *testing.T) {
+	tests := []struct {
+		input  string
+		expect bool
+	}{
+		{`"TODO"`, true},
+
+		{`//"TODO"`, false},
+		{`TODO`, false},
+		{`"todo"`, false},
+		{`"TO"`, false},
+		{`"to be or not to be"`, false},
+		{``, false},
+	}
+
+	for i, tt := range tests {
+		todoTest := ExactStringTest(`"TODO"`).TestFn
+		testResult := todoTest(tt.input)
+		if testResult != tt.expect {
+			t.Fatalf("tests[%d] - failed match. input=%v expected=%v, got=%v",
+				i, tt.input, tt.expect, testResult)
+		}
+	}
+}
+
+// tests the Test method of the ReaderTest struct
 func TestReaderTestTestMethod(t *testing.T) {
 	tests := []string{
 		``,

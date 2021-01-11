@@ -6,12 +6,7 @@ import (
 	"strings"
 )
 
-// log use of bufio.NewScanner to read from file
-// log this bit about using bufio.ScanWords
-// https://medium.com/golangspec/in-depth-introduction-to-bufio-scanner-in-golang-55483bb689b4
-
-// default will test against empty string
-
+// prevents ambiguous case if there is nothing to test
 type ReaderTest struct {
 	DefaultVal bool
 	TestFn     func(string) bool

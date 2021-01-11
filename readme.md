@@ -33,11 +33,17 @@
 1. Default: run with `.` current dir as root dir
     + the following are comparable
         + `$ go run main.go`
+        + `$ go run main.go .`
         + `$ go run main.go -p="."`
 1. Path specified in CLI arguments take precedence over this flag
     + following command will search in `./test2` instead of `./test`
-    + `$ go run main.go ./test2 -p="./test"`
+    + `$ go run main.go -p="./test" ./test2`
 
+## Flag: absolute path to file `-a`
+1. Specify absolute path from `/` to flagged file
+    + `$ go run main.go -a=true [path/to/dir]`
+1. Specify relative path to flagged file (default)
+    + `$ go run main.go`
 
 ## Flag: help `-h`
 1. Check usage of tool

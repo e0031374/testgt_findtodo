@@ -16,7 +16,6 @@ func main() {
 	exactFlag := flag.Bool("e", false, "should program search for exact match (true) or substring (false)")
 
 	flag.Parse()
-	fmt.Println(*exactFlag)
 
 	var rt readerTest.ReaderTest
 	if *exactFlag {

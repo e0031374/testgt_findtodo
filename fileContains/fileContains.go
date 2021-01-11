@@ -26,14 +26,19 @@ func NewFileTestWalkFunction(w io.Writer, target string, rt readerTest.ReaderTes
 			return fmt.Errorf("Encountered error while accessing path: %v ::", err)
 		}
 
+		if info != nil && info.IsDir() {
+			return nil
+		}
+
 		toPrint, err := fileContainsString(path, target, rt)
 		if err != nil {
 			return fmt.Errorf("Encountered error while testing File: %v ::", err)
-		} else {
-			if toPrint {
-				fmt.Fprintf(w, "%v\n", path)
-			}
 		}
+
+		if toPrint {
+			fmt.Fprintf(w, "%v\n", path)
+		}
+
 		return nil
 	}
 }

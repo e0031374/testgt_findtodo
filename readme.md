@@ -22,6 +22,9 @@
 1. Run program with `./test` as the root
     + `$ go run main.go -p="./test"`
 1. Default: run with `.` current dir as root dir
+    + the following are comparable
+        + `$ go run main.go`
+        + `$ go run main.go -p="."`
 
 ## Flag: path `-h`
 1. Check usage of tool

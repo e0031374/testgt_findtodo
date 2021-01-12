@@ -11,38 +11,15 @@ import (
 )
 
 func main() {
-	pathFlag := flag.String("p", ".", "path root to begin checking files for string, cli args takes precedence over this flag")
 	stringFlag := flag.String("s", `"TODO"`, "target string to check files for")
 	exactFlag := flag.Bool("e", false, "should program search for exact match (true) or substring (false)")
 	absFlag := flag.Bool("a", false, "program to display absolute path to flagged file (true) or relative path (false)")
 
 	flag.Parse()
 
-	// override flag value if filepath was specified as cli args
-	argv := flag.Args()
-	path := *pathFlag
-	if len(argv) > 0 {
-		path = argv[0]
-	}
-
-	// get absolute filepath
-	if *absFlag {
-		absPath, err := filepath.Abs(path)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error in getting absolute filepath %v\n", err)
-			fmt.Fprintf(os.Stderr, "Falling back to relative filepath\n")
-		} else {
-			path = absPath
-		}
-	}
-
+	path := processPathInput(flag.Args(), *absFlag)
 	// select which String Test to check each File with
-	var rt readerTest.ReaderTest
-	if *exactFlag {
-		rt = readerTest.ExactStringTest(*stringFlag)
-	} else {
-		rt = readerTest.HasSubstringTest(*stringFlag)
-	}
+	rt := getReaderTest(*exactFlag, *stringFlag)
 
 	wf := fileContains.NewFileTestWalkFunction(os.Stdout, *stringFlag, rt)
 	err := filepath.Walk(path, wf)
@@ -52,4 +29,33 @@ func main() {
         }
 
 
+}
+
+func getReaderTest(eFlag bool, searchVal string) readerTest.ReaderTest {
+	if eFlag {
+		return readerTest.ExactStringTest(searchVal)
+	} else {
+		return readerTest.HasSubstringTest(searchVal)
+	}
+}
+
+func processPathInput(argv []string, isAbs bool) string {
+	path := "."
+	if len(argv) > 0 {
+		path = argv[0]
+	} else {
+		fmt.Println("WARNING: Insufficient argument indicating file path, defaulting to using `.` as root directory\n")
+	}
+
+	// get absolute filepath
+	if isAbs {
+		absPath, err := filepath.Abs(path)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "WARNING: Error in getting absolute filepath %v\n", err)
+			fmt.Fprintf(os.Stderr, "WARNING: Falling back to relative filepath\n\n")
+		} else {
+			path = absPath
+		}
+	}
+	return path
 }
